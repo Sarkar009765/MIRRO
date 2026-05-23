@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mirro — Autonomous Client Hunter</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg-primary: #0a0a1a;
+            --bg-secondary: #12122a;
+            --bg-card: #1a1a3e;
+            --bg-card-hover: #222255;
+            --text-primary: #e8e8f0;
+            --text-secondary: #8888bb;
+            --text-muted: #555588;
+            --accent-cyan: #00d2ff;
+            --accent-blue: #3a7bd5;
+            --accent-pink: #f857a6;
+            --accent-green: #00e676;
+            --accent-orange: #ff9100;
+            --accent-red: #ff1744;
+            --border: #2a2a55;
+            --shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+
+        /* Layout */
+        .app { display: flex; min-height: 100vh; }
+        .sidebar {
+            width: 260px; background: var(--bg-secondary);
+            border-right: 1px solid var(--border);
+            padding: 24px 16px; display: flex; flex-direction: column;
+            position: fixed; top: 0; left: 0; height: 100vh; z-index: 10;
+        }
+        .main { flex: 1; margin-left: 260px; padding: 24px 32px; }
+
+        /* Logo */
+        .logo { display: flex; align-items: center; gap: 12px; margin-bottom: 32px; }
+        .logo-icon {
+            width: 40px; height: 40px; border-radius: 10px;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 800; font-size: 18px; color: #fff;
+        }
+        .logo-text { font-size: 22px; font-weight: 800; letter-spacing: 2px; }
+        .logo-text span { color: var(--accent-cyan); }
+
+        /* Nav */
+        .nav { display: flex; flex-direction: column; gap: 4px; flex: 1; }
+        .nav-item {
+            display: flex; align-items: center; gap: 12px; padding: 12px 16px;
+            border-radius: 10px; color: var(--text-secondary); text-decoration: none;
+            font-size: 14px; font-weight: 500; transition: all .2s;
+            cursor: pointer; border: none; background: none; width: 100%; text-align: left;
+        }
+        .nav-item:hover { background: var(--bg-card); color: var(--text-primary); }
+        .nav-item.active { background: var(--bg-card); color: var(--accent-cyan); }
+        .nav-icon { font-size: 18px; width: 24px; text-align: center; }
+        .nav-badge {
+            margin-left: auto; background: var(--accent-pink); color: #fff;
+            font-size: 11px; padding: 2px 8px; border-radius: 12px; font-weight: 600;
+        }
+        .nav-badge.cyan { background: var(--accent-cyan); }
+
+        /* Status bar */
+        .status-bar {
+            padding: 12px 16px; border-radius: 10px; background: var(--bg-card);
+            display: flex; align-items: center; gap: 10px; font-size: 13px;
+        }
+        .status-dot {
+            width: 8px; height: 8px; border-radius: 50%;
+            background: var(--accent-green); animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: .4; }
+        }
+
+        /* Header */
+        .page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+        .page-title { font-size: 28px; font-weight: 700; }
+        .page-title span { color: var(--accent-cyan); }
+        .page-subtitle { color: var(--text-secondary); font-size: 14px; margin-top: 4px; }
+
+        /* Stats Grid */
+        .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+        .stat-card {
+            background: var(--bg-card); border-radius: 14px; padding: 20px;
+            border: 1px solid var(--border); transition: all .2s;
+        }
+        .stat-card:hover { border-color: var(--accent-cyan); transform: translateY(-2px); }
+        .stat-label { font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+        .stat-value { font-size: 32px; font-weight: 800; }
+        .stat-value.cyan { color: var(--accent-cyan); }
+        .stat-value.pink { color: var(--accent-pink); }
+        .stat-value.green { color: var(--accent-green); }
+        .stat-value.orange { color: var(--accent-orange); }
+
+        /* Cards Grid */
+        .cards-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+        .card {
+            background: var(--bg-card); border-radius: 14px; padding: 20px;
+            border: 1px solid var(--border);
+        }
+        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+        .card-title { font-size: 15px; font-weight: 600; }
+        .card-title .emoji { margin-right: 8px; }
+
+        /* Table */
+        .table-wrap { overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; font-size: 13px; }
+        th { text-align: left; padding: 10px 12px; color: var(--text-muted); font-weight: 500; font-size: 11px; text-transform: uppercase; letter-spacing: .5px; border-bottom: 1px solid var(--border); }
+        td { padding: 10px 12px; border-bottom: 1px solid var(--border); }
+        tr:hover td { background: rgba(255,255,255,0.02); }
+
+        /* Badge */
+        .badge {
+            display: inline-block; padding: 3px 10px; border-radius: 12px;
+            font-size: 11px; font-weight: 600;
+        }
+        .badge-hot { background: rgba(255,23,68,0.15); color: var(--accent-red); }
+        .badge-warm { background: rgba(255,145,0,0.15); color: var(--accent-orange); }
+        .badge-cold { background: rgba(136,136,187,0.15); color: var(--text-secondary); }
+        .badge-ok { background: rgba(0,230,118,0.15); color: var(--accent-green); }
+
+        /* Activity feed */
+        .activity-item {
+            display: flex; align-items: center; gap: 12px; padding: 10px 0;
+            border-bottom: 1px solid var(--border); font-size: 13px;
+        }
+        .activity-item:last-child { border-bottom: none; }
+        .activity-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+        .activity-time { color: var(--text-muted); font-size: 11px; flex-shrink: 0; }
+
+        /* WebSocket / Live indicator */
+        .live-indicator {
+            display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text-secondary);
+        }
+        .live-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent-green); animation: pulse 1.5s infinite; }
+
+        /* Score bar */
+        .score-bar { height: 4px; background: var(--border); border-radius: 2px; margin-top: 6px; overflow: hidden; }
+        .score-fill { height: 100%; border-radius: 2px; transition: width .5s; }
+        .score-fill.green { background: var(--accent-green); }
+        .score-fill.cyan { background: var(--accent-cyan); }
+        .score-fill.orange { background: var(--accent-orange); }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .cards-grid { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 768px) {
+            .sidebar { width: 200px; }
+            .main { margin-left: 200px; padding: 16px; }
+        }
+
+        /* Loading shimmer */
+        .shimmer { background: linear-gradient(90deg, var(--bg-card) 25%, var(--bg-card-hover) 50%, var(--bg-card) 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite; border-radius: 8px; }
+        @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+
+        .mono { font-family: 'JetBrains Mono', monospace; font-size: 12px; }
+        .text-muted { color: var(--text-muted); }
+        .text-cyan { color: var(--accent-cyan); }
+        .text-pink { color: var(--accent-pink); }
+        .mt-16 { margin-top: 16px; }
+        .mb-16 { margin-bottom: 16px; }
+        .flex { display: flex; }
+        .gap-8 { gap: 8px; }
+        .gap-16 { gap: 16px; }
+        .items-center { align-items: center; }
+        .justify-between { justify-content: space-between; }
+        .text-sm { font-size: 13px; }
+    </style>
+</head>
+<body>
+<div class="app" id="app">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="logo">
+            <div class="logo-icon">M</div>
+            <div class="logo-text">Mir<span>ro</span></div>
+        </div>
+
+        <nav class="nav">
+            <button class="nav-item active" data-page="dashboard">
+                <span class="nav-icon">&#9632;</span> Dashboard
+            </button>
+            <button class="nav-item" data-page="leads">
+                <span class="nav-icon">&#9679;</span> Leads
+                <span class="nav-badge cyan" id="hotCount">0</span>
+            </button>
+            <button class="nav-item" data-page="modules">
+                <span class="nav-icon">&#9881;</span> Modules
+            </button>
+            <button class="nav-item" data-page="groups">
+                <span class="nav-icon">&#9776;</span> Groups
+                <span class="nav-badge" id="groupCount">50</span>
+            </button>
+            <button class="nav-item" data-page="shadow">
+                <span class="nav-icon">&#9673;</span> Shadow Matrix
+            </button>
+            <button class="nav-item" data-page="competitors">
+                <span class="nav-icon">&#9888;</span> Competitors
+            </button>
+            <button class="nav-item" data-page="portfolio">
+                <span class="nav-icon">&#9733;</span> Portfolio
+            </button>
+        </nav>
+
+        <div class="status-bar">
+            <div class="status-dot"></div>
+            <span id="statusText">Operational</span>
+            <span class="live-indicator" style="margin-left:auto">
+                <span class="live-dot"></span> LIVE
+            </span>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main">
+        <div class="page-header">
+            <div>
+                <h1 class="page-title">Mir<span>ro</span> Dashboard</h1>
+                <p class="page-subtitle">Autonomous Client Hunting Organism — v1.0.0</p>
+            </div>
+            <div class="live-indicator">
+                <span class="live-dot"></span>
+                <span id="lastUpdate">updating...</span>
+            </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats-grid" id="statsGrid">
+            <div class="stat-card">
+                <div class="stat-label">Total Leads</div>
+                <div class="stat-value cyan" id="statLeads">--</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Hot Leads</div>
+                <div class="stat-value pink" id="statHot">--</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Modules Active</div>
+                <div class="stat-value green" id="statModules">--</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Groups</div>
+                <div class="stat-value orange" id="statGroups">--</div>
+            </div>
+        </div>
+
+        <!-- Cards -->
+        <div class="cards-grid">
+            <!-- Recent Leads -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title"><span class="emoji">&#128293;</span> Hot Leads</div>
+                    <span class="text-muted text-sm">top 10</span>
+                </div>
+                <div class="table-wrap">
+                    <table id="leadsTable">
+                        <thead>
+                            <tr><th>Name</th><th>Score</th><th>Group</th><th>Status</th></tr>
+                        </thead>
+                        <tbody id="leadsBody">
+                            <tr><td colspan="4" class="text-muted" style="text-align:center">Loading...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Activity -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title"><span class="emoji">&#9889;</span> Activity Feed</div>
+                    <span class="text-muted text-sm">real-time</span>
+                </div>
+                <div id="activityFeed">
+                    <div class="activity-item">
+                        <div class="activity-dot" style="background:var(--accent-cyan)"></div>
+                        <span>System initialized</span>
+                        <span class="activity-time">now</span>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-dot" style="background:var(--accent-green)"></div>
+                        <span>All modules loaded</span>
+                        <span class="activity-time">now</span>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-dot" style="background:var(--accent-pink)"></div>
+                        <span>Watcher active on <span id="feedGroupCount">50</span> groups</span>
+                        <span class="activity-time">now</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modules Status -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title"><span class="emoji">&#9881;</span> Modules</div>
+                </div>
+                <div class="table-wrap">
+                    <table>
+                        <thead><tr><th>Module</th><th>Status</th></tr></thead>
+                        <tbody id="modulesBody">
+                            <tr><td colspan="2" class="text-muted" style="text-align:center">Loading...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Shadow Matrix -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title"><span class="emoji">&#128101;</span> Shadow Accounts</div>
+                </div>
+                <div class="table-wrap">
+                    <table>
+                        <thead><tr><th>Account</th><th>Role</th><th>Actions</th></tr></thead>
+                        <tbody id="shadowBody">
+                            <tr><td colspan="3" class="text-muted" style="text-align:center">Loading...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Groups section -->
+        <div class="card" style="margin-top: 16px;">
+            <div class="card-header">
+                <div class="card-title"><span class="emoji">&#127760;</span> Monitored Groups</div>
+            </div>
+            <div class="table-wrap">
+                <table>
+                    <thead><tr><th>Name</th><th>Type</th><th>Members</th></tr></thead>
+                    <tbody id="groupsBody">
+                        <tr><td colspan="3" class="text-muted" style="text-align:center">Loading...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+</div>
+
+<script>
+const API = '/api';
+
+async function fetchJSON(url) {
+    try {
+        const r = await fetch(url);
+        return await r.json();
+    } catch { return null; }
+}
+
+function updateTime() {
+    document.getElementById('lastUpdate').textContent = new Date().toLocaleTimeString();
+}
+
+async function loadStats() {
+    const data = await fetchJSON(API + '/stats');
+    if (!data) return;
+    document.getElementById('statLeads').textContent = data.total_leads ?? 0;
+    document.getElementById('statHot').textContent = data.hot_leads ?? 0;
+    document.getElementById('statModules').textContent = data.modules_loaded ?? 0;
+    document.getElementById('statGroups').textContent = data.groups_monitored ?? 0;
+    document.getElementById('hotCount').textContent = data.hot_leads ?? 0;
+}
+
+async function loadLeads() {
+    const leads = await fetchJSON(API + '/leads');
+    if (!leads || leads.length === 0) {
+        document.getElementById('leadsBody').innerHTML =
+            '<tr><td colspan="4" class="text-muted" style="text-align:center">No leads yet</td></tr>';
+        return;
+    }
+    const tbody = document.getElementById('leadsBody');
+    tbody.innerHTML = leads.slice(0, 10).map(l => {
+        const score = l.hotness_score ?? 0;
+        let badge = 'badge-cold';
+        let badgeText = 'Cold';
+        if (score >= 70) { badge = 'badge-hot'; badgeText = 'Hot'; }
+        else if (score >= 40) { badge = 'badge-warm'; badgeText = 'Warm'; }
+        return `<tr>
+            <td>${l.name || 'Unknown'}</td>
+            <td><span class="mono">${score}</span></td>
+            <td class="text-muted">${l.group_name ? l.group_name.substring(0, 20) : 'N/A'}</td>
+            <td><span class="badge ${badge}">${badgeText}</span></td>
+        </tr>`;
+    }).join('');
+}
+
+async function loadModules() {
+    const data = await fetchJSON(API + '/modules');
+    if (!data || !data.modules) {
+        document.getElementById('modulesBody').innerHTML =
+            '<tr><td colspan="2" class="text-muted" style="text-align:center">No modules loaded</td></tr>';
+        return;
+    }
+    const tbody = document.getElementById('modulesBody');
+    const moduleNames = ['dna_cloner','archaeologist','watcher','ghost_writer','shadow_matrix',
+                         'warmth_protocol','nurture_loop','competitor_radar','portfolio_sniping','safety_guard'];
+    tbody.innerHTML = moduleNames.map(m => {
+        const loaded = data.modules.includes(m);
+        return `<tr>
+            <td style="font-family:'JetBrains Mono',monospace;font-size:12px">${m.replace(/_/g, ' ')}</td>
+            <td><span class="badge ${loaded ? 'badge-ok' : 'badge-cold'}">${loaded ? 'Active' : 'Standby'}</span></td>
+        </tr>`;
+    }).join('');
+}
+
+async function loadShadow() {
+    const data = await fetchJSON(API + '/shadow');
+    if (!data) return;
+    const tbody = document.getElementById('shadowBody');
+    const accounts = Object.entries(data);
+    if (accounts.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="3" class="text-muted" style="text-align:center">No accounts</td></tr>';
+        return;
+    }
+    tbody.innerHTML = accounts.map(([name, info]) => `
+        <tr>
+            <td style="font-family:'JetBrains Mono',monospace;font-size:12px">${name}</td>
+            <td>${info.role || 'N/A'}</td>
+            <td><span class="mono">${info.actions_today ?? 0}</span></td>
+        </tr>
+    `).join('');
+}
+
+async function loadGroups() {
+    const data = await fetchJSON(API + '/groups');
+    if (!data || data.length === 0) {
+        document.getElementById('groupsBody').innerHTML =
+            '<tr><td colspan="3" class="text-muted" style="text-align:center">50+ groups configured</td></tr>';
+        return;
+    }
+    const tbody = document.getElementById('groupsBody');
+    tbody.innerHTML = data.slice(0, 15).map(g => `
+        <tr>
+            <td>${g.name || 'N/A'}</td>
+            <td><span class="badge badge-ok">${g.type || 'general'}</span></td>
+            <td class="mono">${(g.members_estimate || 0).toLocaleString()}</td>
+        </tr>
+    `).join('');
+    if (data.length > 15) {
+        tbody.innerHTML += `<tr><td colspan="3" class="text-muted" style="text-align:center">...and ${data.length - 15} more</td></tr>`;
+    }
+    document.getElementById('feedGroupCount').textContent = data.length;
+    document.getElementById('groupCount').textContent = data.length;
+}
+
+async function refreshAll() {
+    await Promise.all([loadStats(), loadLeads(), loadModules(), loadShadow(), loadGroups()]);
+    updateTime();
+}
+
+// Poll every 5 seconds
+refreshAll();
+setInterval(refreshAll, 5000);
+</script>
+</body>
+</html>

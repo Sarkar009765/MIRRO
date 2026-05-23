@@ -8,6 +8,7 @@ import os
 import sys
 import asyncio
 import signal
+import threading
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
@@ -25,6 +26,7 @@ from mirror.modules.competitor_radar import CompetitorRadar
 from mirror.modules.portfolio_sniping import PortfolioSniping
 from mirror.modules.safety_guard import SafetyGuard
 from mirror.war_room.telegram_bot import WarRoom
+from mirror.ui.app import create_app, start_ui
 from mirror.utils.logger import get_logger
 
 logger = get_logger("main")
@@ -91,11 +93,24 @@ class MirrorApplication:
         self._initialized = True
         logger.info(f"All {len(self.modules)} modules initialized")
 
+    def _start_ui(self):
+        logger.info("Starting Mirro UI on http://localhost:5555")
+        create_app(self.brain)
+        start_ui(host="0.0.0.0", port=5555)
+
     async def start(self):
         if not self._initialized:
             self.init_modules()
 
         logger.info("MIRROR starting up...")
+        print("\n" + "="*50)
+        print("  Mirro Dashboard: http://localhost:5555")
+        print("  Telegram War Room: /start in your bot")
+        print("="*50 + "\n")
+
+        ui_thread = threading.Thread(target=self._start_ui, daemon=True)
+        ui_thread.start()
+        await asyncio.sleep(2)
 
         start_task = asyncio.create_task(self.war_room.start())
         await asyncio.sleep(1)
