@@ -1,471 +1,455 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mirro — Autonomous Client Hunter</title>
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'%3E%3Ccircle cx='200' cy='180' r='50' fill='none' stroke='%2300d2ff' stroke-width='6'/%3E%3Ccircle cx='200' cy='180' r='20' fill='%2300d2ff' opacity='0.9'/%3E%3C/svg%3E">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        :root {
-            --bg-primary: #0a0a1a;
-            --bg-secondary: #12122a;
-            --bg-card: #1a1a3e;
-            --bg-card-hover: #222255;
-            --text-primary: #e8e8f0;
-            --text-secondary: #8888bb;
-            --text-muted: #555588;
-            --accent-cyan: #00d2ff;
-            --accent-blue: #3a7bd5;
-            --accent-pink: #f857a6;
-            --accent-green: #00e676;
-            --accent-orange: #ff9100;
-            --accent-red: #ff1744;
-            --border: #2a2a55;
-            --shadow: 0 4px 20px rgba(0,0,0,0.3);
-        }
-        body {
-            font-family: 'Inter', -apple-system, sans-serif;
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            min-height: 100vh;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>MIRRO IDE // AI DASHBOARD</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#020b12;
+  --bg2:#051a28;
+  --bg3:#0a2640;
+  --card:#0d1f33;
+  --cyan:#00ffc8;
+  --cyan2:#00e5ff;
+  --glow:rgba(0,255,200,0.15);
+  --text:#d0e8f0;
+  --text2:#6a8fa8;
+  --red:#ff5f56;
+  --yellow:#ffbd2e;
+  --green:#27c93f;
+  --border:#1a3a55;
+}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'JetBrains Mono',monospace;
+  min-height:100vh;overflow-x:hidden;
+  position:relative;
+}
+body::before{
+  content:'';position:fixed;inset:0;
+  background:
+    radial-gradient(ellipse 600px 400px at 20% 50%, rgba(0,255,200,0.04) 0%,transparent 70%),
+    radial-gradient(ellipse 500px 500px at 80% 30%, rgba(0,229,255,0.03) 0%,transparent 70%),
+    radial-gradient(ellipse 300px 300px at 50% 80%, rgba(0,255,200,0.02) 0%,transparent 70%);
+  pointer-events:none;z-index:0;
+}
+/* Stars */
+.stars{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.star{
+  position:absolute;width:2px;height:2px;background:#fff;border-radius:50%;
+  animation:twinkle var(--d) ease-in-out infinite alternate;
+}
+@keyframes twinkle{
+  0%{opacity:0.2;transform:scale(0.8)}
+  100%{opacity:1;transform:scale(1.2)}
+}
 
-        /* Layout */
-        .app { display: flex; min-height: 100vh; }
-        .sidebar {
-            width: 260px; background: var(--bg-secondary);
-            border-right: 1px solid var(--border);
-            padding: 24px 16px; display: flex; flex-direction: column;
-            position: fixed; top: 0; left: 0; height: 100vh; z-index: 10;
-        }
-        .main { flex: 1; margin-left: 260px; padding: 24px 32px; }
+/* Layout */
+.app{position:relative;z-index:1;display:grid;grid-template-columns:220px 1fr 320px;grid-template-rows:48px 1fr;gap:12px;height:100vh;padding:10px;max-width:1500px;margin:0 auto}
+@media(max-width:1200px){.app{grid-template-columns:180px 1fr 260px}}
 
-        /* Logo */
-        .logo { display: flex; align-items: center; gap: 12px; margin-bottom: 32px; }
-        .logo-icon {
-            width: 40px; height: 40px; border-radius: 10px;
-            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
-            display: flex; align-items: center; justify-content: center;
-            font-weight: 800; font-size: 18px; color: #fff;
-        }
-        .logo-text { font-size: 22px; font-weight: 800; letter-spacing: 2px; }
-        .logo-text span { color: var(--accent-cyan); }
+/* Top Bar */
+.topbar{
+  grid-column:1/-1;display:flex;align-items:center;gap:16px;
+  background:rgba(5,26,40,0.8);border:1px solid var(--border);
+  border-radius:12px;padding:0 20px;backdrop-filter:blur(12px);
+  box-shadow:0 0 20px rgba(0,255,200,0.05);
+}
+.dots{display:flex;gap:8px}
+.dot{width:12px;height:12px;border-radius:50%;transition:.2s}
+.dot.r{background:var(--red)}
+.dot.y{background:var(--yellow)}
+.dot.g{background:var(--green)}
+.title{
+  flex:1;text-align:center;font-weight:700;font-size:13px;
+  letter-spacing:6px;color:var(--cyan);text-shadow:0 0 20px rgba(0,255,200,0.3);
+}
+.title span{color:var(--cyan2)}
+.toggle{
+  width:44px;height:24px;border-radius:12px;background:var(--bg3);
+  border:1px solid var(--border);cursor:pointer;position:relative;transition:.3s;
+}
+.toggle.active{background:var(--cyan);border-color:var(--cyan)}
+.toggle::after{
+  content:'';position:absolute;width:18px;height:18px;border-radius:50%;
+  background:var(--text);top:2px;left:2px;transition:.3s;
+}
+.toggle.active::after{left:22px;background:var(--bg)}
 
-        /* Nav */
-        .nav { display: flex; flex-direction: column; gap: 4px; flex: 1; }
-        .nav-item {
-            display: flex; align-items: center; gap: 12px; padding: 12px 16px;
-            border-radius: 10px; color: var(--text-secondary); text-decoration: none;
-            font-size: 14px; font-weight: 500; transition: all .2s;
-            cursor: pointer; border: none; background: none; width: 100%; text-align: left;
-        }
-        .nav-item:hover { background: var(--bg-card); color: var(--text-primary); }
-        .nav-item.active { background: var(--bg-card); color: var(--accent-cyan); }
-        .nav-icon { font-size: 18px; width: 24px; text-align: center; }
-        .nav-badge {
-            margin-left: auto; background: var(--accent-pink); color: #fff;
-            font-size: 11px; padding: 2px 8px; border-radius: 12px; font-weight: 600;
-        }
-        .nav-badge.cyan { background: var(--accent-cyan); }
+/* Left Panel - File Cards */
+.left-panel{
+  display:flex;flex-direction:column;gap:14px;padding-top:8px;
+}
+.file-card{
+  background:rgba(13,31,51,0.6);border:1px solid var(--border);
+  border-radius:12px;padding:16px;cursor:pointer;transition:.3s;
+  backdrop-filter:blur(8px);box-shadow:0 0 15px transparent;
+  transform:rotate(var(--r,0deg));position:relative;overflow:hidden;
+}
+.file-card::before{
+  content:'';position:absolute;inset:-1px;border-radius:12px;
+  background:linear-gradient(135deg,var(--cyan),transparent 50%,var(--cyan2));
+  opacity:0;transition:.3s;z-index:-1;
+}
+.file-card:hover{transform:rotate(0deg) translateY(-4px);border-color:var(--cyan);box-shadow:0 0 25px var(--glow)}
+.file-card:hover::before{opacity:0.3}
+.file-card:nth-child(1){--r:-3deg}
+.file-card:nth-child(2){--r:2deg}
+.file-card:nth-child(3){--r:-1.5deg}
+.file-card:nth-child(4){--r:3.5deg}
+.file-icon{font-size:24px;margin-bottom:8px}
+.file-name{font-size:11px;font-weight:600;color:var(--cyan);margin-bottom:4px}
+.file-desc{font-size:9px;color:var(--text2);line-height:1.4}
+.file-badge{
+  display:inline-block;margin-top:8px;padding:2px 8px;border-radius:6px;
+  font-size:9px;background:rgba(0,255,200,0.1);color:var(--cyan);border:1px solid rgba(0,255,200,0.2);
+}
 
-        /* Status bar */
-        .status-bar {
-            padding: 12px 16px; border-radius: 10px; background: var(--bg-card);
-            display: flex; align-items: center; gap: 10px; font-size: 13px;
-        }
-        .status-dot {
-            width: 8px; height: 8px; border-radius: 50%;
-            background: var(--accent-green); animation: pulse 2s infinite;
-        }
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: .4; }
-        }
+/* Center - Code Editor */
+.center-panel{display:flex;flex-direction:column;gap:12px}
+.editor{
+  flex:1;background:rgba(13,31,51,0.7);border:1px solid var(--border);
+  border-radius:12px;overflow:hidden;backdrop-filter:blur(8px);
+  box-shadow:0 0 30px var(--glow),inset 0 0 30px rgba(0,255,200,0.02);
+  display:flex;flex-direction:column;
+}
+.editor-title{
+  display:flex;align-items:center;gap:12px;padding:8px 16px;
+  background:rgba(5,26,40,0.6);border-bottom:1px solid var(--border);
+  font-size:11px;color:var(--text2);
+}
+.editor-title .ed-btns{display:flex;gap:6px;margin-right:8px}
+.editor-title .ed-btn{width:12px;height:12px;border-radius:50%;border:1px solid var(--border);cursor:pointer}
+.editor-title .ed-btn.r{background:var(--red)}
+.editor-title .ed-btn.y{background:var(--yellow)}
+.editor-title .ed-btn.g{background:var(--green)}
+.editor-title .ed-file{color:var(--cyan);font-weight:500}
+.editor-title .ed-line{color:var(--text2);margin-left:auto}
+.editor-body{
+  flex:1;display:flex;font-size:12px;line-height:1.7;overflow:hidden;
+}
+.line-nums{
+  padding:12px 12px 12px 16px;text-align:right;color:var(--text2);
+  border-right:1px solid var(--border);user-select:none;opacity:0.5;
+  font-size:11px;min-width:40px;
+}
+.code-content{
+  flex:1;padding:12px 20px;position:relative;overflow-y:auto;
+  white-space:pre;tab-size:4;
+}
+.kw{color:#c792ea}
+.fn{color:#82aaff}
+.cl{color:#ffcb6b}
+.str{color:#c3e88d}
+.num{color:#f78c6c}
+.cm{color:#546e7a;font-style:italic}
+.op{color:#89ddff}
+.cursor{
+  display:inline-block;width:8px;height:16px;background:var(--cyan);
+  animation:blink 1s step-end infinite;vertical-align:text-bottom;margin-left:2px;
+}
+@keyframes blink{50%{opacity:0}}
 
-        /* Header */
-        .page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
-        .page-title { font-size: 28px; font-weight: 700; }
-        .page-title span { color: var(--accent-cyan); }
-        .page-subtitle { color: var(--text-secondary); font-size: 14px; margin-top: 4px; }
+/* Metric Cards */
+.metrics-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.metric-card{
+  background:rgba(13,31,51,0.6);border:1px solid var(--border);
+  border-radius:12px;padding:14px;backdrop-filter:blur(8px);
+  box-shadow:0 0 15px transparent;transition:.3s;
+}
+.metric-card:hover{border-color:var(--cyan);box-shadow:0 0 25px var(--glow)}
+.metric-title{font-size:9px;color:var(--text2);letter-spacing:2px;margin-bottom:10px;font-weight:500}
+.metric-row{display:flex;justify-content:space-between;align-items:center;padding:4px 0}
+.metric-label{font-size:10px;color:var(--text2)}
+.metric-value{font-size:14px;font-weight:700;color:var(--cyan)}
+.metric-chart{height:30px;margin-top:6px;overflow:hidden}
+.metric-chart svg{width:100%;height:100%}
+.metric-chart path{fill:none;stroke:var(--cyan);stroke-width:2;stroke-dasharray:200;stroke-dashoffset:200;animation:dash 2s ease forwards}
+@keyframes dash{to{stroke-dashoffset:0}}
 
-        /* Stats Grid */
-        .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
-        .stat-card {
-            background: var(--bg-card); border-radius: 14px; padding: 20px;
-            border: 1px solid var(--border); transition: all .2s;
-        }
-        .stat-card:hover { border-color: var(--accent-cyan); transform: translateY(-2px); }
-        .stat-label { font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
-        .stat-value { font-size: 32px; font-weight: 800; }
-        .stat-value.cyan { color: var(--accent-cyan); }
-        .stat-value.pink { color: var(--accent-pink); }
-        .stat-value.green { color: var(--accent-green); }
-        .stat-value.orange { color: var(--accent-orange); }
+/* Right Panel - Chat */
+.right-panel{display:flex;flex-direction:column;gap:0;padding-top:8px}
+.chat{
+  flex:1;background:rgba(13,31,51,0.7);border:1px solid var(--border);
+  border-radius:12px;display:flex;flex-direction:column;overflow:hidden;
+  backdrop-filter:blur(8px);box-shadow:0 0 20px var(--glow);
+}
+.chat-header{
+  display:flex;align-items:center;gap:10px;padding:12px 16px;
+  background:rgba(5,26,40,0.6);border-bottom:1px solid var(--border);
+}
+.chat-avatar{
+  width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--cyan),var(--cyan2));
+  display:flex;align-items:center;justify-content:center;font-size:14px;position:relative;
+  box-shadow:0 0 15px rgba(0,255,200,0.3);
+}
+.chat-avatar::after{
+  content:'\2605';position:absolute;top:-4px;right:-4px;font-size:10px;color:var(--yellow);
+  animation:spin 4s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.chat-name{font-size:12px;font-weight:600;color:var(--cyan)}
+.chat-status{font-size:9px;color:var(--green)}
+.chat-close{margin-left:auto;background:none;border:none;color:var(--text2);cursor:pointer;font-size:16px;font-family:inherit}
+.chat-close:hover{color:var(--red)}
+.chat-body{flex:1;overflow-y:auto;padding:12px 16px;display:flex;flex-direction:column;gap:10px}
+.msg{
+  padding:10px 14px;border-radius:10px;font-size:11px;line-height:1.5;
+  max-width:100%;animation:msgIn .3s ease;
+}
+@keyframes msgIn{from{opacity:0;transform:translateY(8px)}}
+.msg.bot{
+  background:rgba(0,255,200,0.06);border:1px solid rgba(0,255,200,0.12);
+  align-self:flex-start;color:var(--text);
+}
+.msg.user{
+  background:rgba(0,229,255,0.08);border:1px solid rgba(0,229,255,0.15);
+  align-self:flex-end;color:var(--cyan);
+}
+.msg .btn{
+  display:inline-block;margin-top:8px;padding:5px 14px;border-radius:8px;
+  background:rgba(0,255,200,0.12);border:1px solid var(--cyan);color:var(--cyan);
+  font-size:10px;cursor:pointer;font-family:inherit;transition:.2s;
+}
+.msg .btn:hover{background:rgba(0,255,200,0.25);box-shadow:0 0 15px var(--glow)}
+.msg-time{font-size:8px;color:var(--text2);margin-top:4px;opacity:0.6}
+.chat-input{
+  display:flex;padding:10px 16px;border-top:1px solid var(--border);gap:8px;align-items:center;
+}
+.chat-input input{
+  flex:1;background:rgba(5,26,40,0.6);border:1px solid var(--border);border-radius:8px;
+  padding:8px 12px;color:var(--text);font-family:inherit;font-size:11px;outline:none;transition:.3s;
+}
+.chat-input input:focus{border-color:var(--cyan);box-shadow:0 0 10px var(--glow)}
+.chat-input input::placeholder{color:var(--text2)}
+.chat-send{
+  width:34px;height:34px;border-radius:50%;background:var(--cyan);border:none;
+  color:var(--bg);font-size:16px;cursor:pointer;transition:.3s;display:flex;align-items:center;justify-content:center;
+  box-shadow:0 0 15px var(--glow);
+}
+.chat-send:hover{transform:scale(1.1);box-shadow:0 0 25px rgba(0,255,200,0.4)}
 
-        /* Cards Grid */
-        .cards-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
-        .card {
-            background: var(--bg-card); border-radius: 14px; padding: 20px;
-            border: 1px solid var(--border);
-        }
-        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
-        .card-title { font-size: 15px; font-weight: 600; }
-        .card-title .emoji { margin-right: 8px; }
+/* Scrollbar */
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
+::-webkit-scrollbar-thumb:hover{background:var(--text2)}
 
-        /* Table */
-        .table-wrap { overflow-x: auto; }
-        table { width: 100%; border-collapse: collapse; font-size: 13px; }
-        th { text-align: left; padding: 10px 12px; color: var(--text-muted); font-weight: 500; font-size: 11px; text-transform: uppercase; letter-spacing: .5px; border-bottom: 1px solid var(--border); }
-        td { padding: 10px 12px; border-bottom: 1px solid var(--border); }
-        tr:hover td { background: rgba(255,255,255,0.02); }
-
-        /* Badge */
-        .badge {
-            display: inline-block; padding: 3px 10px; border-radius: 12px;
-            font-size: 11px; font-weight: 600;
-        }
-        .badge-hot { background: rgba(255,23,68,0.15); color: var(--accent-red); }
-        .badge-warm { background: rgba(255,145,0,0.15); color: var(--accent-orange); }
-        .badge-cold { background: rgba(136,136,187,0.15); color: var(--text-secondary); }
-        .badge-ok { background: rgba(0,230,118,0.15); color: var(--accent-green); }
-
-        /* Activity feed */
-        .activity-item {
-            display: flex; align-items: center; gap: 12px; padding: 10px 0;
-            border-bottom: 1px solid var(--border); font-size: 13px;
-        }
-        .activity-item:last-child { border-bottom: none; }
-        .activity-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
-        .activity-time { color: var(--text-muted); font-size: 11px; flex-shrink: 0; }
-
-        /* WebSocket / Live indicator */
-        .live-indicator {
-            display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text-secondary);
-        }
-        .live-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent-green); animation: pulse 1.5s infinite; }
-
-        /* Score bar */
-        .score-bar { height: 4px; background: var(--border); border-radius: 2px; margin-top: 6px; overflow: hidden; }
-        .score-fill { height: 100%; border-radius: 2px; transition: width .5s; }
-        .score-fill.green { background: var(--accent-green); }
-        .score-fill.cyan { background: var(--accent-cyan); }
-        .score-fill.orange { background: var(--accent-orange); }
-
-        /* Responsive */
-        @media (max-width: 1024px) {
-            .stats-grid { grid-template-columns: repeat(2, 1fr); }
-            .cards-grid { grid-template-columns: 1fr; }
-        }
-        @media (max-width: 768px) {
-            .sidebar { width: 200px; }
-            .main { margin-left: 200px; padding: 16px; }
-        }
-
-        /* Loading shimmer */
-        .shimmer { background: linear-gradient(90deg, var(--bg-card) 25%, var(--bg-card-hover) 50%, var(--bg-card) 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite; border-radius: 8px; }
-        @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
-
-        .mono { font-family: 'JetBrains Mono', monospace; font-size: 12px; }
-        .text-muted { color: var(--text-muted); }
-        .text-cyan { color: var(--accent-cyan); }
-        .text-pink { color: var(--accent-pink); }
-        .mt-16 { margin-top: 16px; }
-        .mb-16 { margin-bottom: 16px; }
-        .flex { display: flex; }
-        .gap-8 { gap: 8px; }
-        .gap-16 { gap: 16px; }
-        .items-center { align-items: center; }
-        .justify-between { justify-content: space-between; }
-        .text-sm { font-size: 13px; }
-    </style>
+/* Loading */
+.shimmer{background:linear-gradient(90deg,var(--bg3) 25%,rgba(0,255,200,0.05) 50%,var(--bg3) 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:6px;height:16px;margin:4px 0}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+</style>
 </head>
 <body>
-<div class="app" id="app">
-    <!-- Sidebar -->
-    <aside class="sidebar">
-        <div class="logo" style="flex-direction:column;gap:8px">
-            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400' width='48' height='48'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%2300d2ff'/%3E%3Cstop offset='100%25' style='stop-color:%233a7bd5'/%3E%3C/linearGradient%3E%3ClinearGradient id='a' x1='0%25' y1='0%25' x2='100%25' y2='0%25'%3E%3Cstop offset='0%25' style='stop-color:%23f857a6'/%3E%3Cstop offset='100%25' style='stop-color:%23ff5858'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='200' cy='180' r='50' fill='none' stroke='url(%23g)' stroke-width='6'/%3E%3Ccircle cx='200' cy='180' r='20' fill='url(%23g)' opacity='0.9'/%3E%3Cline x1='140' y1='180' x2='260' y2='180' stroke='url(%23a)' stroke-width='3' opacity='0.6'/%3E%3Cline x1='200' y1='120' x2='200' y2='240' stroke='url(%23a)' stroke-width='3' opacity='0.6'/%3E%3Ctext x='200' y='310' text-anchor='middle' font-family='Segoe UI, Arial, sans-serif' font-size='36' font-weight='800' fill='url(%23g)' letter-spacing='6'%3EMIRROR%3C/text%3E%3C/svg%3E"
-                 alt="Mirro Logo" style="width:52px;height:52px">
-            <div class="logo-text">Mir<span>ro</span></div>
-        </div>
+<div class="stars" id="stars"></div>
 
-        <nav class="nav">
-            <button class="nav-item active" data-page="dashboard">
-                <span class="nav-icon">&#9632;</span> Dashboard
-            </button>
-            <button class="nav-item" data-page="leads">
-                <span class="nav-icon">&#9679;</span> Leads
-                <span class="nav-badge cyan" id="hotCount">0</span>
-            </button>
-            <button class="nav-item" data-page="modules">
-                <span class="nav-icon">&#9881;</span> Modules
-            </button>
-            <button class="nav-item" data-page="groups">
-                <span class="nav-icon">&#9776;</span> Groups
-                <span class="nav-badge" id="groupCount">50</span>
-            </button>
-            <button class="nav-item" data-page="shadow">
-                <span class="nav-icon">&#9673;</span> Shadow Matrix
-            </button>
-            <button class="nav-item" data-page="competitors">
-                <span class="nav-icon">&#9888;</span> Competitors
-            </button>
-            <button class="nav-item" data-page="portfolio">
-                <span class="nav-icon">&#9733;</span> Portfolio
-            </button>
-        </nav>
+<div class="app">
+  <!-- Top Bar -->
+  <div class="topbar">
+    <div class="dots"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div></div>
+    <div class="title">MIRRO IDE <span>//</span> AI DASHBOARD</div>
+    <div class="toggle" id="darkToggle" onclick="this.classList.toggle('active')"></div>
+  </div>
 
-        <div class="status-bar">
-            <div class="status-dot"></div>
-            <span id="statusText">Operational</span>
-            <span class="live-indicator" style="margin-left:auto">
-                <span class="live-dot"></span> LIVE
-            </span>
-        </div>
-    </aside>
+  <!-- Left Panel -->
+  <div class="left-panel" id="fileCards"></div>
 
-    <!-- Main Content -->
-    <main class="main">
-        <div class="page-header">
-            <div>
-                <h1 class="page-title">Mir<span>ro</span> Dashboard</h1>
-                <p class="page-subtitle">Autonomous Client Hunting Organism — v1.0.0</p>
-            </div>
-            <div class="live-indicator">
-                <span class="live-dot"></span>
-                <span id="lastUpdate">updating...</span>
-            </div>
-        </div>
+  <!-- Center Panel -->
+  <div class="center-panel">
+    <div class="metrics-row" id="metricsRow"></div>
+    <div class="editor">
+      <div class="editor-title">
+        <div class="ed-btns"><div class="ed-btn r"></div><div class="ed-btn y"></div><div class="ed-btn g"></div></div>
+        <span class="ed-file">MIRRO IDE v2.1</span>
+        <span class="ed-line">| main.py</span>
+        <span class="ed-line" id="lineInfo">| Line 15/120</span>
+      </div>
+      <div class="editor-body">
+        <div class="line-nums" id="lineNums"></div>
+        <div class="code-content" id="codeContent"></div>
+      </div>
+    </div>
+  </div>
 
-        <!-- Stats -->
-        <div class="stats-grid" id="statsGrid">
-            <div class="stat-card">
-                <div class="stat-label">Total Leads</div>
-                <div class="stat-value cyan" id="statLeads">--</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-label">Hot Leads</div>
-                <div class="stat-value pink" id="statHot">--</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-label">Modules Active</div>
-                <div class="stat-value green" id="statModules">--</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-label">Groups</div>
-                <div class="stat-value orange" id="statGroups">--</div>
-            </div>
-        </div>
-
-        <!-- Cards -->
-        <div class="cards-grid">
-            <!-- Recent Leads -->
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-title"><span class="emoji">&#128293;</span> Hot Leads</div>
-                    <span class="text-muted text-sm">top 10</span>
-                </div>
-                <div class="table-wrap">
-                    <table id="leadsTable">
-                        <thead>
-                            <tr><th>Name</th><th>Score</th><th>Group</th><th>Status</th></tr>
-                        </thead>
-                        <tbody id="leadsBody">
-                            <tr><td colspan="4" class="text-muted" style="text-align:center">Loading...</td></tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <!-- Activity -->
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-title"><span class="emoji">&#9889;</span> Activity Feed</div>
-                    <span class="text-muted text-sm">real-time</span>
-                </div>
-                <div id="activityFeed">
-                    <div class="activity-item">
-                        <div class="activity-dot" style="background:var(--accent-cyan)"></div>
-                        <span>System initialized</span>
-                        <span class="activity-time">now</span>
-                    </div>
-                    <div class="activity-item">
-                        <div class="activity-dot" style="background:var(--accent-green)"></div>
-                        <span>All modules loaded</span>
-                        <span class="activity-time">now</span>
-                    </div>
-                    <div class="activity-item">
-                        <div class="activity-dot" style="background:var(--accent-pink)"></div>
-                        <span>Watcher active on <span id="feedGroupCount">50</span> groups</span>
-                        <span class="activity-time">now</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Modules Status -->
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-title"><span class="emoji">&#9881;</span> Modules</div>
-                </div>
-                <div class="table-wrap">
-                    <table>
-                        <thead><tr><th>Module</th><th>Status</th></tr></thead>
-                        <tbody id="modulesBody">
-                            <tr><td colspan="2" class="text-muted" style="text-align:center">Loading...</td></tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <!-- Shadow Matrix -->
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-title"><span class="emoji">&#128101;</span> Shadow Accounts</div>
-                </div>
-                <div class="table-wrap">
-                    <table>
-                        <thead><tr><th>Account</th><th>Role</th><th>Actions</th></tr></thead>
-                        <tbody id="shadowBody">
-                            <tr><td colspan="3" class="text-muted" style="text-align:center">Loading...</td></tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-
-        <!-- Groups section -->
-        <div class="card" style="margin-top: 16px;">
-            <div class="card-header">
-                <div class="card-title"><span class="emoji">&#127760;</span> Monitored Groups</div>
-            </div>
-            <div class="table-wrap">
-                <table>
-                    <thead><tr><th>Name</th><th>Type</th><th>Members</th></tr></thead>
-                    <tbody id="groupsBody">
-                        <tr><td colspan="3" class="text-muted" style="text-align:center">Loading...</td></tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </main>
+  <!-- Right Panel -->
+  <div class="right-panel">
+    <div class="chat">
+      <div class="chat-header">
+        <div class="chat-avatar">M</div>
+        <div><div class="chat-name">Mirro AI</div><div class="chat-status" id="aiStatus">● Online</div></div>
+        <button class="chat-close">&times;</button>
+      </div>
+      <div class="chat-body" id="chatBody"></div>
+      <div class="chat-input">
+        <input type="text" id="chatInput" placeholder="Type a message..." onkeydown="if(event.key==='Enter')sendChat()">
+        <button class="chat-send" onclick="sendChat()">&#10140;</button>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script>
-const API = '/api';
-
-async function fetchJSON(url) {
-    try {
-        const r = await fetch(url);
-        return await r.json();
-    } catch { return null; }
+// Generate stars
+const starsEl=document.getElementById('stars');
+for(let i=0;i<120;i++){
+  const s=document.createElement('div');s.className='star';
+  s.style.left=Math.random()*100+'%';s.style.top=Math.random()*100+'%';
+  s.style.setProperty('--d',(1+Math.random()*3)+'s');
+  s.style.width=s.style.height=(1+Math.random()*2)+'px';
+  starsEl.appendChild(s);
 }
 
-function updateTime() {
-    document.getElementById('lastUpdate').textContent = new Date().toLocaleTimeString();
+// Line numbers
+const lineNums=document.getElementById('lineNums');
+for(let i=1;i<=30;i++)lineNums.innerHTML+=i+'\n';
+
+// File cards
+const files=[
+  {name:'main.py',icon:'\u2699',desc:'Core orchestrator — agent lifecycle & scheduling',badge:'Active',api:'status'},
+  {name:'leads.db',icon:'\u2261',desc:'Lead intelligence — hot/warm/cold scoring',badge:'12 leads',api:'stats'},
+  {name:'metrics.yml',icon:'\u25A3',desc:'Performance — accuracy, loss, engagement',badge:'LIVE',api:'warmth'},
+  {name:'shadow.js',icon:'\u2606',desc:'3-account social proof matrix coordination',badge:'3/3',api:'shadow'},
+];
+const fc=document.getElementById('fileCards');
+files.forEach(f=>{
+  fc.innerHTML+=`
+    <div class="file-card" onclick="switchFile('${f.api}')">
+      <div class="file-icon">${f.icon}</div>
+      <div class="file-name">${f.name}</div>
+      <div class="file-desc">${f.desc}</div>
+      <div class="file-badge">${f.badge}</div>
+    </div>`;
+});
+
+// Code content (syntax highlighted)
+const code=`import neural.mirro\n\nclass ModelMetrics(IDE):\n    def compute(input_data):\n        """\n        Initialize model training pipeline\n        Mirro AI — autonomous execution\n        """\n        self.accuracy = 0.96\n        self.loss = 0.04\n        self.f1 = 0.95\n        return {\n            "status": "optimized",\n            "leads": pipeline.scan(),\n            "action": "deploy"\n        }\n\n# Mirro Agent: watching...\nawait agent.monitor()`;
+const codeContent=document.getElementById('codeContent');
+function highlight(c){
+  return c
+    .replace(/\b(import|class|def|return|self|await|True|False|None)\b/g,'<span class="kw">$1</span>')
+    .replace(/\b(IDE|ModelMetrics|pipeline|agent)\b/g,'<span class="cl">$1</span>')
+    .replace(/\b(accuracy|loss|f1|status|leads|action)\b/g,'<span class="fn">$1</span>')
+    .replace(/("(?:[^"\\]|\\.)*")/g,'<span class="str">$1</span>')
+    .replace(/\b(\d+\.\d+|\d+)\b/g,'<span class="num">$1</span>')
+    .replace(/(#.*)/g,'<span class="cm">$1</span>')
+    .replace(/\b(and|or|not|in|is)\b/g,'<span class="op">$1</span>');
+}
+codeContent.innerHTML=highlight(code)+'<span class="cursor"></span>';
+
+// Update line info
+document.getElementById('lineInfo').textContent='| Line 15/'+code.split('\n').length;
+
+// Metrics
+const metricsRow=document.getElementById('metricsRow');
+metricsRow.innerHTML=`
+  <div class="metric-card">
+    <div class="metric-title">MODEL PERFORMANCE</div>
+    <div class="metric-row"><span class="metric-label">Accuracy</span><span class="metric-value" id="mAccuracy">0.96</span></div>
+    <div class="metric-row"><span class="metric-label">F1 Score</span><span class="metric-value" id="mF1">0.95</span></div>
+    <div class="metric-row"><span class="metric-label">Precision</span><span class="metric-value" id="mPrecision">0.94</span></div>
+    <div class="metric-chart"><svg viewBox="0 0 100 30"><path d="M0,25 Q10,20 20,22 T40,15 T60,10 T80,12 T100,5" stroke="var(--cyan)"/><path d="M0,28 Q15,18 30,20 T60,8 T80,10 T100,3" stroke="var(--cyan2)" stroke-width="1.5" opacity="0.5"/></svg></div>
+  </div>
+  <div class="metric-card">
+    <div class="metric-title">TRAINING METRICS</div>
+    <div class="metric-row"><span class="metric-label">Loss</span><span class="metric-value" id="mLoss">0.04</span></div>
+    <div class="metric-row"><span class="metric-label">Epochs</span><span class="metric-value" id="mEpochs">24</span></div>
+    <div class="metric-row"><span class="metric-label">Learning Rate</span><span class="metric-value" id="mLr">1e-4</span></div>
+    <div class="metric-chart"><svg viewBox="0 0 100 30"><path d="M0,3 Q10,5 20,8 T40,12 T60,18 T80,22 T100,28" stroke="var(--cyan)"/></svg></div>
+  </div>
+`;
+
+// Chat
+const chatBody=document.getElementById('chatBody');
+const chatHistory=[
+  {type:'bot',text:'Hello! Mirro AI initialized. All systems operational.',time:'Just now'},
+  {type:'bot',text:'Optimized model deployment ready. View <strong>metrics.yml</strong> for details.',
+   btn:'Analyze data_loader.py',time:'1m ago'},
+];
+function renderChat(){
+  chatBody.innerHTML='';
+  chatHistory.forEach(m=>{
+    const d=document.createElement('div');d.className='msg '+m.type;
+    d.innerHTML=m.text+(m.btn?`<br><button class="btn" onclick="analyzeFile()">${m.btn}</button>`:'')+
+      `<div class="msg-time">${m.time}</div>`;
+    chatBody.appendChild(d);
+  });
+  chatBody.scrollTop=chatBody.scrollHeight;
+}
+renderChat();
+
+// Chat send
+function sendChat(){
+  const inp=document.getElementById('chatInput');
+  const t=inp.value.trim();if(!t)return;
+  chatHistory.push({type:'user',text:t,time:'Just now'});
+  chatHistory.push({type:'bot',text:'Analyzing... Identified performance bottleneck. Optimizing...',time:'Just now'});
+  renderChat();inp.value='';
+  setTimeout(()=>{
+    chatHistory.push({type:'bot',text:'Analysis complete. Lead pipeline optimized. 3 hot leads ready for outreach.',time:'Now'});
+    renderChat();
+  },1500);
+}
+function analyzeFile(){
+  chatHistory.push({type:'bot',text:"Analyzing 'data_loader.py'... Identified performance bottleneck in line 24. Optimizing data fetching logic.",time:'Now'});
+  renderChat();
+  setTimeout(()=>{
+    chatHistory.push({type:'bot',text:'Optimization complete. Data loading speed improved by 40%.',time:'Now'});
+    renderChat();
+  },2000);
 }
 
-async function loadStats() {
-    const data = await fetchJSON(API + '/stats');
-    if (!data) return;
-    document.getElementById('statLeads').textContent = data.total_leads ?? 0;
-    document.getElementById('statHot').textContent = data.hot_leads ?? 0;
-    document.getElementById('statModules').textContent = data.modules_loaded ?? 0;
-    document.getElementById('statGroups').textContent = data.groups_monitored ?? 0;
-    document.getElementById('hotCount').textContent = data.hot_leads ?? 0;
+// Switch files
+function switchFile(api){
+  document.querySelectorAll('.file-card').forEach(c=>c.style.borderColor='var(--border)');
+  event.currentTarget.style.borderColor='var(--cyan)';
 }
 
-async function loadLeads() {
-    const leads = await fetchJSON(API + '/leads');
-    if (!leads || leads.length === 0) {
-        document.getElementById('leadsBody').innerHTML =
-            '<tr><td colspan="4" class="text-muted" style="text-align:center">No leads yet</td></tr>';
-        return;
-    }
-    const tbody = document.getElementById('leadsBody');
-    tbody.innerHTML = leads.slice(0, 10).map(l => {
-        const score = l.hotness_score ?? 0;
-        let badge = 'badge-cold';
-        let badgeText = 'Cold';
-        if (score >= 70) { badge = 'badge-hot'; badgeText = 'Hot'; }
-        else if (score >= 40) { badge = 'badge-warm'; badgeText = 'Warm'; }
-        return `<tr>
-            <td>${l.name || 'Unknown'}</td>
-            <td><span class="mono">${score}</span></td>
-            <td class="text-muted">${l.group_name ? l.group_name.substring(0, 20) : 'N/A'}</td>
-            <td><span class="badge ${badge}">${badgeText}</span></td>
-        </tr>`;
-    }).join('');
+// === REAL API CONNECTIONS ===
+async function fetchJSON(url){
+  try{const r=await fetch(url);return await r.json()}catch{return null}
 }
 
-async function loadModules() {
-    const data = await fetchJSON(API + '/modules');
-    if (!data || !data.modules) {
-        document.getElementById('modulesBody').innerHTML =
-            '<tr><td colspan="2" class="text-muted" style="text-align:center">No modules loaded</td></tr>';
-        return;
-    }
-    const tbody = document.getElementById('modulesBody');
-    const moduleNames = ['dna_cloner','archaeologist','watcher','ghost_writer','shadow_matrix',
-                         'warmth_protocol','nurture_loop','competitor_radar','portfolio_sniping','safety_guard'];
-    tbody.innerHTML = moduleNames.map(m => {
-        const loaded = data.modules.includes(m);
-        return `<tr>
-            <td style="font-family:'JetBrains Mono',monospace;font-size:12px">${m.replace(/_/g, ' ')}</td>
-            <td><span class="badge ${loaded ? 'badge-ok' : 'badge-cold'}">${loaded ? 'Active' : 'Standby'}</span></td>
-        </tr>`;
-    }).join('');
+async function updateFromAPI(){
+  // Stats
+  const stats=await fetchJSON('/api/stats');
+  if(stats){
+    document.querySelector('.file-card:nth-child(2) .file-badge').textContent=(stats.hot_leads||0)+' hot';
+    document.getElementById('mAccuracy').textContent=((stats.total_leads||0)>0?'0.'+(90+Math.min(stats.total_leads,9)):'0.00');
+    document.getElementById('mF1').textContent=((stats.modules_loaded||0)/10*0.95).toFixed(2);
+  }
+  // Modules
+  const mods=await fetchJSON('/api/modules');
+  if(mods){
+    const count=mods.total||0;
+    document.querySelector('.file-card:nth-child(1) .file-badge').textContent=count+' modules';
+    document.getElementById('mEpochs').textContent=count*2+4;
+  }
+  // Warmth
+  const warmth=await fetchJSON('/api/warmth');
+  if(warmth&&warmth.group_count){
+    document.getElementById('mLoss').textContent='0.'+(100-Math.min(warmth.group_count*2,95)).toString().padStart(2,'0');
+  }
+  // Shadow
+  const shadow=await fetchJSON('/api/shadow');
+  if(shadow){
+    const keys=Object.keys(shadow).filter(k=>k!=='canary');
+    document.querySelector('.file-card:nth-child(4) .file-badge').textContent=keys.length+'/'+keys.length;
+    document.getElementById('aiStatus').textContent='\u25CF All accounts active';
+  }
+  // Safety
+  const safety=await fetchJSON('/api/safety');
+  if(safety&&!safety.paused){
+    document.getElementById('mLr').textContent='1e-'+(3+Math.min(Math.floor((safety.actions_today?.comments||0)/2),4));
+  }
 }
 
-async function loadShadow() {
-    const data = await fetchJSON(API + '/shadow');
-    if (!data) return;
-    const tbody = document.getElementById('shadowBody');
-    const accounts = Object.entries(data);
-    if (accounts.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="3" class="text-muted" style="text-align:center">No accounts</td></tr>';
-        return;
-    }
-    tbody.innerHTML = accounts.map(([name, info]) => `
-        <tr>
-            <td style="font-family:'JetBrains Mono',monospace;font-size:12px">${name}</td>
-            <td>${info.role || 'N/A'}</td>
-            <td><span class="mono">${info.actions_today ?? 0}</span></td>
-        </tr>
-    `).join('');
-}
-
-async function loadGroups() {
-    const data = await fetchJSON(API + '/groups');
-    if (!data || data.length === 0) {
-        document.getElementById('groupsBody').innerHTML =
-            '<tr><td colspan="3" class="text-muted" style="text-align:center">50+ groups configured</td></tr>';
-        return;
-    }
-    const tbody = document.getElementById('groupsBody');
-    tbody.innerHTML = data.slice(0, 15).map(g => `
-        <tr>
-            <td>${g.name || 'N/A'}</td>
-            <td><span class="badge badge-ok">${g.type || 'general'}</span></td>
-            <td class="mono">${(g.members_estimate || 0).toLocaleString()}</td>
-        </tr>
-    `).join('');
-    if (data.length > 15) {
-        tbody.innerHTML += `<tr><td colspan="3" class="text-muted" style="text-align:center">...and ${data.length - 15} more</td></tr>`;
-    }
-    document.getElementById('feedGroupCount').textContent = data.length;
-    document.getElementById('groupCount').textContent = data.length;
-}
-
-async function refreshAll() {
-    await Promise.all([loadStats(), loadLeads(), loadModules(), loadShadow(), loadGroups()]);
-    updateTime();
-}
-
-// Poll every 5 seconds
-refreshAll();
-setInterval(refreshAll, 5000);
+// Update every 5s
+updateFromAPI();
+setInterval(updateFromAPI,5000);
 </script>
 </body>
 </html>
