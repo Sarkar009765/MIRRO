@@ -141,7 +141,7 @@ def api_groups():
     if not brain_ref:
         return jsonify([])
     groups = brain_ref.groups.get("groups", [])
-    return jsonify(groups[:20])
+    return jsonify(groups)
 
 
 def start_ui(host="0.0.0.0", port=5555, debug=False):
