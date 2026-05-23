@@ -1,0 +1,74 @@
+[
+    {
+        "id": 1,
+        "title": "E-Commerce Platform for Local Brand",
+        "description": "Full-stack e-commerce solution with payment gateway integration, inventory management, and admin dashboard. Built with React + Node.js.",
+        "tags": ["ecommerce", "react", "nodejs", "payment", "full-stack"],
+        "price_range": "25k-35k",
+        "timeline": "3 weeks",
+        "client_type": "local_business"
+    },
+    {
+        "id": 2,
+        "title": "School Management System",
+        "description": "Complete school management software with student records, attendance, fee management, and parent portal. Django + PostgreSQL.",
+        "tags": ["web_app", "django", "management", "database", "full-stack"],
+        "price_range": "40k-50k",
+        "timeline": "5 weeks",
+        "client_type": "institution"
+    },
+    {
+        "id": 3,
+        "title": "Real Estate Listing Website",
+        "description": "Property listing platform with search, filter, map integration, and agent dashboard. Built with Next.js + Laravel.",
+        "tags": ["web_app", "nextjs", "laravel", "real-estate", "full-stack"],
+        "price_range": "20k-30k",
+        "timeline": "3 weeks",
+        "client_type": "startup"
+    },
+    {
+        "id": 4,
+        "title": "Ride Sharing Mobile App",
+        "description": "Cross-platform ride booking app with real-time tracking, payment, and rating system. React Native + Firebase.",
+        "tags": ["app", "react-native", "firebase", "real-time", "mobile"],
+        "price_range": "50k-70k",
+        "timeline": "8 weeks",
+        "client_type": "startup"
+    },
+    {
+        "id": 5,
+        "title": "Restaurant Ordering System",
+        "description": "Online ordering and table reservation system with kitchen display and analytics. WordPress + custom PHP.",
+        "tags": ["web_app", "wordpress", "php", "ordering", "small-business"],
+        "price_range": "15k-20k",
+        "timeline": "2 weeks",
+        "client_type": "small_business"
+    },
+    {
+        "id": 6,
+        "title": "Healthcare Appointment App",
+        "description": "Doctor appointment booking app with patient records, video consultation integration, and SMS reminders. Flutter + Django.",
+        "tags": ["app", "flutter", "django", "healthcare", "mobile"],
+        "price_range": "45k-60k",
+        "timeline": "6 weeks",
+        "client_type": "startup"
+    },
+    {
+        "id": 7,
+        "title": "Learning Management System",
+        "description": "Online course platform with video streaming, quiz engine, certificate generation, and student analytics. React + Node.js + MongoDB.",
+        "tags": ["web_app", "react", "nodejs", "mongodb", "education"],
+        "price_range": "35k-50k",
+        "timeline": "5 weeks",
+        "client_type": "institution"
+    },
+    {
+        "id": 8,
+        "title": "Inventory Management Dashboard",
+        "description": "Real-time inventory tracking with barcode scanning, supplier management, and reporting dashboard. Python Flask + SQLite.",
+        "tags": ["web_app", "flask", "python", "inventory", "dashboard"],
+        "price_range": "18k-25k",
+        "timeline": "2 weeks",
+        "client_type": "small_business"
+    }
+]

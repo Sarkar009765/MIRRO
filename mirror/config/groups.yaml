@@ -1,0 +1,254 @@
+# MIRROR Facebook Target Groups
+# Pre-loaded with 50+ Bangladesh development & freelancing groups
+# Uncomment and set actual URLs before first run
+
+groups:
+  - name: "Web Developers Bangladesh"
+    url: ""  # TODO: add URL
+    type: "web_dev"
+    members_estimate: 50000
+
+  - name: "Freelancers Hub Bangladesh"
+    url: ""
+    type: "general"
+    members_estimate: 80000
+
+  - name: "WordPress Help Community BD"
+    url: ""
+    type: "wordpress"
+    members_estimate: 30000
+
+  - name: "App Developers Forum Bangladesh"
+    url: ""
+    type: "app_dev"
+    members_estimate: 25000
+
+  - name: "Tech Startups Bangladesh"
+    url: ""
+    type: "startup"
+    members_estimate: 40000
+
+  - name: "Bangladesh IT Professionals"
+    url: ""
+    type: "general"
+    members_estimate: 100000
+
+  - name: "BD Freelancers Zone"
+    url: ""
+    type: "freelance"
+    members_estimate: 60000
+
+  - name: "Web Design & Development BD"
+    url: ""
+    type: "web_dev"
+    members_estimate: 45000
+
+  - name: "Bangladeshi Programmers Forum"
+    url: ""
+    type: "general"
+    members_estimate: 55000
+
+  - name: "E-Commerce Solutions BD"
+    url: ""
+    type: "ecommerce"
+    members_estimate: 35000
+
+  - name: "Python Developers Bangladesh"
+    url: ""
+    type: "web_dev"
+    members_estimate: 20000
+
+  - name: "JavaScript & MERN Stack BD"
+    url: ""
+    type: "web_dev"
+    members_estimate: 25000
+
+  - name: "Mobile App Developers BD"
+    url: ""
+    type: "app_dev"
+    members_estimate: 22000
+
+  - name: "Django Developers Bangladesh"
+    url: ""
+    type: "web_dev"
+    members_estimate: 15000
+
+  - name: "Laravel Developer Community BD"
+    url: ""
+    type: "web_dev"
+    members_estimate: 18000
+
+  - name: "BD Tech Freelancers Marketplace"
+    url: ""
+    type: "freelance"
+    members_estimate: 70000
+
+  - name: "Software Engineers Bangladesh"
+    url: ""
+    type: "general"
+    members_estimate: 90000
+
+  - name: "Flutter Developers BD"
+    url: ""
+    type: "app_dev"
+    members_estimate: 12000
+
+  - name: "React Native Developers Bangladesh"
+    url: ""
+    type: "app_dev"
+    members_estimate: 10000
+
+  - name: "Shopify Developers Bangladesh"
+    url: ""
+    type: "ecommerce"
+    members_estimate: 15000
+
+  - name: "MERN Stack Project BD"
+    url: ""
+    type: "web_dev"
+    members_estimate: 20000
+
+  - name: "Full Stack Web Developers BD"
+    url: ""
+    type: "web_dev"
+    members_estimate: 30000
+
+  - name: "BD IT Solution Providers"
+    url: ""
+    type: "general"
+    members_estimate: 40000
+
+  - name: "Digital Marketing & Web Dev BD"
+    url: ""
+    type: "general"
+    members_estimate: 50000
+
+  - name: "Bangladesh Startup Network"
+    url: ""
+    type: "startup"
+    members_estimate: 35000
+
+  - name: "UI UX Designers Bangladesh"
+    url: ""
+    type: "design"
+    members_estimate: 12000
+
+  - name: "PHP & MySQL Developers BD"
+    url: ""
+    type: "web_dev"
+    members_estimate: 18000
+
+  - name: "BD Freelancing Tips & Jobs"
+    url: ""
+    type: "freelance"
+    members_estimate: 85000
+
+  - name: "Software Outsourcing Bangladesh"
+    url: ""
+    type: "general"
+    members_estimate: 30000
+
+  - name: "Tech Solution BD"
+    url: ""
+    type: "general"
+    members_estimate: 25000
+
+  - name: "Next.js & React Developers BD"
+    url: ""
+    type: "web_dev"
+    members_estimate: 15000
+
+  - name: "WordPress & WooCommerce BD"
+    url: ""
+    type: "wordpress"
+    members_estimate: 20000
+
+  - name: "Bangladesh AI & ML Community"
+    url: ""
+    type: "tech"
+    members_estimate: 18000
+
+  - name: "BD Web Hosting & Domain"
+    url: ""
+    type: "tech"
+    members_estimate: 15000
+
+  - name: "API Development & Integration BD"
+    url: ""
+    type: "web_dev"
+    members_estimate: 12000
+
+  - name: "BD IT Job & Project Marketplace"
+    url: ""
+    type: "freelance"
+    members_estimate: 95000
+
+  - name: "Cross Platform App Dev BD"
+    url: ""
+    type: "app_dev"
+    members_estimate: 10000
+
+  - name: "Vue.js Developers Bangladesh"
+    url: ""
+    type: "web_dev"
+    members_estimate: 8000
+
+  - name: "Go & Python Developers BD"
+    url: ""
+    type: "web_dev"
+    members_estimate: 10000
+
+  - name: "BD Blockchain & Web3 Community"
+    url: ""
+    type: "tech"
+    members_estimate: 8000
+
+  - name: "SaaS Builders Bangladesh"
+    url: ""
+    type: "startup"
+    members_estimate: 12000
+
+  - name: "BD Micro SaaS Community"
+    url: ""
+    type: "startup"
+    members_estimate: 7000
+
+  - name: "Bangladesh AWS & Cloud Users"
+    url: ""
+    type: "tech"
+    members_estimate: 15000
+
+  - name: "Coding Bootcamp BD Alumni"
+    url: ""
+    type: "general"
+    members_estimate: 20000
+
+  - name: "Women in Tech Bangladesh"
+    url: ""
+    type: "general"
+    members_estimate: 25000
+
+  - name: "BD Game Developers Forum"
+    url: ""
+    type: "tech"
+    members_estimate: 8000
+
+  - name: "DevOps Engineers Bangladesh"
+    url: ""
+    type: "tech"
+    members_estimate: 10000
+
+  - name: "BD Cyber Security Community"
+    url: ""
+    type: "tech"
+    members_estimate: 12000
+
+  - name: "Open Source Contributors BD"
+    url: ""
+    type: "tech"
+    members_estimate: 10000
+
+  - name: "BD Tech Entrepreneurs"
+    url: ""
+    type: "startup"
+    members_estimate: 20000

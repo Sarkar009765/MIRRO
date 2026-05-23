@@ -1,0 +1,50 @@
+# MIRROR Policy Configuration
+# Auto-loaded on startup — edit only when needed
+
+system:
+  name: "MIRROR"
+  version: "1.0.0"
+  timezone: "Asia/Dhaka"
+  locale: "bn-BD"
+
+scheduling:
+  active_start: "10:00"
+  active_end: "21:00"
+  lunch_break_start: "13:00"
+  lunch_break_end: "14:00"
+  sleep_start: "01:00"
+  sleep_end: "08:00"
+  weekend_reduction: 0.5
+  max_daily_comments: 8
+  min_gap_minutes: 120
+  group_cooldown_hours: 72
+
+scoring:
+  lead_hot_threshold: 70
+  lead_warm_threshold: 40
+  budget_weight: 0.3
+  urgency_weight: 0.25
+  fit_weight: 0.25
+  engagement_weight: 0.2
+
+warmth_protocol:
+  enabled: true
+  phase1_days: 7
+  phase2_days: 7
+  min_warmth_score_pitch: 70
+  new_group_wait_hours: 72
+
+nurture:
+  max_follow_ups: 4
+  re_engage_cooldown_days: 30
+  monthly_touch_enabled: true
+
+autopilot:
+  default_mode: false
+  min_confidence_auto: 85
+  max_daily_auto: 5
+
+backup:
+  interval_hours: 6
+  retention_days: 30
+  cloud_sync: false

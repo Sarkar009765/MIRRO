@@ -1,0 +1,70 @@
+# MIRROR Safety & Anti-Ban Configuration
+# Pre-configured with optimal defaults for Facebook survival
+
+behavioral_mimicry:
+  typing_speed_min_wpm: 40
+  typing_speed_max_wpm: 70
+  backspace_probability: 0.08
+  scroll_pattern: "jerky"
+  tab_switching: true
+  random_pause_min_seconds: 3
+  random_pause_max_seconds: 15
+
+human_schedule:
+  active_windows:
+    - start: "10:00"
+      end: "13:00"
+    - start: "17:00"
+      end: "21:00"
+  sleep_window:
+    start: "01:00"
+    end: "08:00"
+  lunch_break:
+    start: "13:00"
+    end: "14:00"
+  weekend_activity_factor: 0.5
+
+action_budget:
+  max_daily_comments: 8
+  max_daily_posts: 2
+  max_daily_likes: 20
+  max_daily_dms: 5
+  per_group_max_comments: 2
+  per_group_max_posts: 1
+  min_gap_between_actions_minutes: 120
+  group_rotation_cooldown_hours: 72
+  new_group_warmup_hours: 72
+  new_account_daily_limit: 3
+
+fingerprint:
+  canvas_enabled: true
+  webgl_renderer: "Intel Intel(R) HD Graphics 620"
+  webgl_vendor: "Intel Inc."
+  timezone: "Asia/Dhaka"
+  timezone_offset: 360
+  languages:
+    - "bn-BD"
+    - "en-US"
+    - "en-GB"
+  viewport_width: 1366
+  viewport_height: 768
+  user_agents:
+    - "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/124.0.0.0 Safari/537.36"
+    - "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/123.0.0.0 Safari/537.36"
+    - "Mozilla/5.0 (Linux; Android 13; SM-A536E) AppleWebKit/537.36 Chrome/124.0.0.0 Mobile Safari/537.36"
+  rotation_interval_days: 7
+
+canary:
+  enabled: true
+  lead_time_hours: 24
+  pause_on_restriction: true
+  pause_duration_hours: 48
+  notify_telegram: true
+
+rate_limiting:
+  login_attempts_per_hour: 3
+  comment_length_min: 20
+  comment_length_max: 500
+  post_length_max: 300
+  image_upload_per_hour: 2
+  friend_request_per_day: 5
