@@ -20,6 +20,14 @@
 
 ---
 
+## Dashboard Preview
+
+<img src="assets/dashboard-preview.svg" alt="Mirro Dashboard Preview" width="100%"/>
+
+> Run `python main.py` and open `http://localhost:5555` to see the live dashboard.
+
+---
+
 ## Overview
 
 **MIRROR** is a fully autonomous digital employee built for Facebook Groups client acquisition. Unlike conventional bots that spam generic pitches, MIRROR:

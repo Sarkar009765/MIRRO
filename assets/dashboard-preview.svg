@@ -1,0 +1,200 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 750" width="1200" height="750">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a0a1a"/>
+      <stop offset="100%" style="stop-color:#12122a"/>
+    </linearGradient>
+    <linearGradient id="cyanGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#00d2ff"/>
+      <stop offset="100%" style="stop-color:#3a7bd5"/>
+    </linearGradient>
+    <linearGradient id="pinkGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#f857a6"/>
+      <stop offset="100%" style="stop-color:#ff5858"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="750" fill="url(#bg)"/>
+
+  <!-- Sidebar -->
+  <rect x="0" y="0" width="240" height="750" fill="#12122a"/>
+  <rect x="239" y="0" width="1" height="750" fill="#2a2a55"/>
+
+  <!-- Logo in sidebar -->
+  <circle cx="45" cy="40" r="18" fill="none" stroke="url(#cyanGrad)" stroke-width="2.5"/>
+  <circle cx="45" cy="40" r="7" fill="url(#cyanGrad)" opacity="0.9"/>
+  <line x1="29" y1="40" x2="61" y2="40" stroke="url(#pinkGrad)" stroke-width="1.5" opacity="0.5"/>
+  <line x1="45" y1="24" x2="45" y2="56" stroke="url(#pinkGrad)" stroke-width="1.5" opacity="0.5"/>
+  <text x="80" y="46" font-family="Segoe UI, Arial" font-size="18" font-weight="800" fill="url(#cyanGrad)" letter-spacing="2">Mirro</text>
+
+  <!-- Nav items -->
+  <rect x="16" y="75" width="208" height="36" rx="8" fill="#1a1a3e"/>
+  <text x="40" y="98" font-family="Segoe UI, Arial" font-size="13" fill="#00d2ff" font-weight="600">■ Dashboard</text>
+  <text x="40" y="140" font-family="Segoe UI, Arial" font-size="13" fill="#8888bb">● Leads</text>
+  <rect x="180" y="128" width="32" height="18" rx="9" fill="#00d2ff"/>
+  <text x="196" y="141" font-family="Segoe UI, Arial" font-size="10" fill="#fff" font-weight="700" text-anchor="middle">5</text>
+  <text x="40" y="176" font-family="Segoe UI, Arial" font-size="13" fill="#8888bb">⚙ Modules</text>
+  <text x="40" y="212" font-family="Segoe UI, Arial" font-size="13" fill="#8888bb">≡ Groups</text>
+  <rect x="180" y="200" width="32" height="18" rx="9" fill="#f857a6"/>
+  <text x="196" y="213" font-family="Segoe UI, Arial" font-size="10" fill="#fff" font-weight="700" text-anchor="middle">50</text>
+  <text x="40" y="248" font-family="Segoe UI, Arial" font-size="13" fill="#8888bb">◉ Shadow Matrix</text>
+  <text x="40" y="284" font-family="Segoe UI, Arial" font-size="13" fill="#8888bb">⚠ Competitors</text>
+  <text x="40" y="320" font-family="Segoe UI, Arial" font-size="13" fill="#8888bb">★ Portfolio</text>
+
+  <!-- Status bar -->
+  <rect x="16" y="680" width="208" height="48" rx="10" fill="#1a1a3e"/>
+  <circle cx="36" cy="704" r="4" fill="#00e676" filter="url(#glow)"/>
+  <text x="50" y="708" font-family="Segoe UI, Arial" font-size="12" fill="#8888bb">Operational</text>
+  <circle cx="200" cy="704" r="3" fill="#00e676" filter="url(#glow)"/>
+  <text x="182" y="716" font-family="Segoe UI, Arial" font-size="9" fill="#555588">LIVE</text>
+
+  <!-- Header -->
+  <text x="270" y="46" font-family="Segoe UI, Arial" font-size="24" font-weight="700" fill="#e8e8f0">Mirro Dashboard</text>
+  <text x="270" y="66" font-family="Segoe UI, Arial" font-size="12" fill="#8888bb">Autonomous Client Hunting Organism — v1.0.0</text>
+
+  <!-- Stats Cards -->
+  <rect x="270" y="85" width="210" height="90" rx="12" fill="#1a1a3e" stroke="#2a2a55" stroke-width="1"/>
+  <text x="290" y="110" font-family="Segoe UI, Arial" font-size="11" fill="#555588" letter-spacing="1">TOTAL LEADS</text>
+  <text x="290" y="155" font-family="Segoe UI, Arial" font-size="32" font-weight="800" fill="#00d2ff">5</text>
+
+  <rect x="495" y="85" width="210" height="90" rx="12" fill="#1a1a3e" stroke="#2a2a55" stroke-width="1"/>
+  <text x="515" y="110" font-family="Segoe UI, Arial" font-size="11" fill="#555588" letter-spacing="1">HOT LEADS</text>
+  <text x="515" y="155" font-family="Segoe UI, Arial" font-size="32" font-weight="800" fill="#f857a6">3</text>
+
+  <rect x="720" y="85" width="210" height="90" rx="12" fill="#1a1a3e" stroke="#2a2a55" stroke-width="1"/>
+  <text x="740" y="110" font-family="Segoe UI, Arial" font-size="11" fill="#555588" letter-spacing="1">MODULES ACTIVE</text>
+  <text x="740" y="155" font-family="Segoe UI, Arial" font-size="32" font-weight="800" fill="#00e676">10</text>
+
+  <rect x="945" y="85" width="210" height="90" rx="12" fill="#1a1a3e" stroke="#2a2a55" stroke-width="1"/>
+  <text x="965" y="110" font-family="Segoe UI, Arial" font-size="11" fill="#555588" letter-spacing="1">GROUPS</text>
+  <text x="965" y="155" font-family="Segoe UI, Arial" font-size="32" font-weight="800" fill="#ff9100">50</text>
+
+  <!-- Hot Leads Table -->
+  <rect x="270" y="195" width="440" height="280" rx="12" fill="#1a1a3e" stroke="#2a2a55" stroke-width="1"/>
+  <text x="290" y="222" font-family="Segoe UI, Arial" font-size="14" font-weight="600" fill="#e8e8f0">Hot Leads</text>
+
+  <text x="290" y="252" font-family="Segoe UI, Arial" font-size="10" fill="#555588" letter-spacing="0.5">NAME</text>
+  <text x="420" y="252" font-family="Segoe UI, Arial" font-size="10" fill="#555588" letter-spacing="0.5">SCORE</text>
+  <text x="490" y="252" font-family="Segoe UI, Arial" font-size="10" fill="#555588" letter-spacing="0.5">GROUP</text>
+  <text x="610" y="252" font-family="Segoe UI, Arial" font-size="10" fill="#555588" letter-spacing="0.5">STATUS</text>
+  <line x1="290" y1="260" x2="690" y2="260" stroke="#2a2a55" stroke-width="1"/>
+
+  <text x="290" y="284" font-family="Segoe UI, Arial" font-size="12" fill="#e8e8f0">Tanvir Ahmed</text>
+  <text x="420" y="284" font-family="monospace" font-size="12" fill="#e8e8f0">95</text>
+  <text x="490" y="284" font-family="Segoe UI, Arial" font-size="12" fill="#8888bb">Tech Startups BD</text>
+  <rect x="600" y="275" width="40" height="18" rx="9" fill="rgba(255,23,68,0.15)"/>
+  <text x="620" y="288" font-family="Segoe UI, Arial" font-size="10" fill="#ff1744" font-weight="600" text-anchor="middle">Hot</text>
+
+  <line x1="290" y1="296" x2="690" y2="296" stroke="#2a2a55" stroke-width="0.5" opacity="0.5"/>
+  <text x="290" y="314" font-family="Segoe UI, Arial" font-size="12" fill="#e8e8f0">Rahim Khan</text>
+  <text x="420" y="314" font-family="monospace" font-size="12" fill="#e8e8f0">92</text>
+  <text x="490" y="314" font-family="Segoe UI, Arial" font-size="12" fill="#8888bb">Web Developers BD</text>
+  <rect x="600" y="305" width="40" height="18" rx="9" fill="rgba(255,23,68,0.15)"/>
+  <text x="620" y="318" font-family="Segoe UI, Arial" font-size="10" fill="#ff1744" font-weight="600" text-anchor="middle">Hot</text>
+
+  <line x1="290" y1="326" x2="690" y2="326" stroke="#2a2a55" stroke-width="0.5" opacity="0.5"/>
+  <text x="290" y="344" font-family="Segoe UI, Arial" font-size="12" fill="#e8e8f0">Karim Hossain</text>
+  <text x="420" y="344" font-family="monospace" font-size="12" fill="#e8e8f0">85</text>
+  <text x="490" y="344" font-family="Segoe UI, Arial" font-size="12" fill="#8888bb">WordPress Comm...</text>
+  <rect x="600" y="335" width="50" height="18" rx="9" fill="rgba(255,145,0,0.15)"/>
+  <text x="625" y="348" font-family="Segoe UI, Arial" font-size="10" fill="#ff9100" font-weight="600" text-anchor="middle">Warm</text>
+
+  <line x1="290" y1="356" x2="690" y2="356" stroke="#2a2a55" stroke-width="0.5" opacity="0.5"/>
+  <text x="290" y="374" font-family="Segoe UI, Arial" font-size="12" fill="#e8e8f0">Sadia Islam</text>
+  <text x="420" y="374" font-family="monospace" font-size="12" fill="#e8e8f0">78</text>
+  <text x="490" y="374" font-family="Segoe UI, Arial" font-size="12" fill="#8888bb">Freelancers Hub</text>
+  <rect x="600" y="365" width="50" height="18" rx="9" fill="rgba(255,145,0,0.15)"/>
+  <text x="625" y="378" font-family="Segoe UI, Arial" font-size="10" fill="#ff9100" font-weight="600" text-anchor="middle">Warm</text>
+
+  <line x1="290" y1="386" x2="690" y2="386" stroke="#2a2a55" stroke-width="0.5" opacity="0.5"/>
+  <text x="290" y="404" font-family="Segoe UI, Arial" font-size="12" fill="#e8e8f0">Nusrat Jahan</text>
+  <text x="420" y="404" font-family="monospace" font-size="12" fill="#e8e8f0">55</text>
+  <text x="490" y="404" font-family="Segoe UI, Arial" font-size="12" fill="#8888bb">App Developers</text>
+  <rect x="600" y="395" width="45" height="18" rx="9" fill="rgba(136,136,187,0.15)"/>
+  <text x="622" y="408" font-family="Segoe UI, Arial" font-size="10" fill="#8888bb" font-weight="600" text-anchor="middle">Cold</text>
+
+  <!-- Activity Feed -->
+  <rect x="730" y="195" width="425" height="280" rx="12" fill="#1a1a3e" stroke="#2a2a55" stroke-width="1"/>
+  <text x="750" y="222" font-family="Segoe UI, Arial" font-size="14" font-weight="600" fill="#e8e8f0">Activity Feed</text>
+  <text x="1100" y="222" font-family="Segoe UI, Arial" font-size="11" fill="#555588">real-time</text>
+
+  <circle cx="760" cy="254" r="3" fill="#00d2ff"/>
+  <text x="775" y="258" font-family="Segoe UI, Arial" font-size="12" fill="#e8e8f0">System initialized</text>
+  <text x="1100" y="258" font-family="Segoe UI, Arial" font-size="11" fill="#555588">now</text>
+
+  <line x1="750" y1="272" x2="1135" y2="272" stroke="#2a2a55" stroke-width="0.5" opacity="0.5"/>
+  <circle cx="760" cy="293" r="3" fill="#00e676"/>
+  <text x="775" y="297" font-family="Segoe UI, Arial" font-size="12" fill="#e8e8f0">All 10 modules loaded</text>
+  <text x="1100" y="297" font-family="Segoe UI, Arial" font-size="11" fill="#555588">now</text>
+
+  <line x1="750" y1="311" x2="1135" y2="311" stroke="#2a2a55" stroke-width="0.5" opacity="0.5"/>
+  <circle cx="760" cy="332" r="3" fill="#f857a6"/>
+  <text x="775" y="336" font-family="Segoe UI, Arial" font-size="12" fill="#e8e8f0">Watcher active on 50 groups</text>
+  <text x="1100" y="336" font-family="Segoe UI, Arial" font-size="11" fill="#555588">now</text>
+
+  <line x1="750" y1="350" x2="1135" y2="350" stroke="#2a2a55" stroke-width="0.5" opacity="0.5"/>
+  <circle cx="760" cy="371" r="3" fill="#ff9100"/>
+  <text x="775" y="375" font-family="Segoe UI, Arial" font-size="12" fill="#e8e8f0">3 competitors detected</text>
+  <text x="1100" y="375" font-family="Segoe UI, Arial" font-size="11" fill="#555588">2m ago</text>
+
+  <line x1="750" y1="389" x2="1135" y2="389" stroke="#2a2a55" stroke-width="0.5" opacity="0.5"/>
+  <circle cx="760" cy="410" r="3" fill="#00d2ff"/>
+  <text x="775" y="414" font-family="Segoe UI, Arial" font-size="12" fill="#e8e8f0">Scan cycle complete</text>
+  <text x="1100" y="414" font-family="Segoe UI, Arial" font-size="11" fill="#555588">5m ago</text>
+
+  <!-- Modules -->
+  <rect x="270" y="495" width="440" height="180" rx="12" fill="#1a1a3e" stroke="#2a2a55" stroke-width="1"/>
+  <text x="290" y="522" font-family="Segoe UI, Arial" font-size="14" font-weight="600" fill="#e8e8f0">Modules</text>
+
+  <text x="290" y="548" font-family="Segoe UI, Arial" font-size="10" fill="#555588" letter-spacing="0.5">MODULE</text>
+  <text x="560" y="548" font-family="Segoe UI, Arial" font-size="10" fill="#555588" letter-spacing="0.5">STATUS</text>
+  <line x1="290" y1="555" x2="690" y2="555" stroke="#2a2a55" stroke-width="1"/>
+
+  <text x="290" y="578" font-family="monospace" font-size="11" fill="#e8e8f0">dna cloner</text>
+  <circle cx="560" cy="575" r="4" fill="#00e676"/>
+  <text x="572" y="579" font-family="Segoe UI, Arial" font-size="11" fill="#00e676">Active</text>
+
+  <text x="290" y="598" font-family="monospace" font-size="11" fill="#e8e8f0">archaeologist</text>
+  <circle cx="560" cy="595" r="4" fill="#00e676"/>
+  <text x="572" y="599" font-family="Segoe UI, Arial" font-size="11" fill="#00e676">Active</text>
+
+  <text x="290" y="618" font-family="monospace" font-size="11" fill="#e8e8f0">watcher</text>
+  <circle cx="560" cy="615" r="4" fill="#00e676"/>
+  <text x="572" y="619" font-family="Segoe UI, Arial" font-size="11" fill="#00e676">Active</text>
+
+  <text x="290" y="638" font-family="monospace" font-size="11" fill="#e8e8f0">ghost writer</text>
+  <circle cx="560" cy="635" r="4" fill="#00e676"/>
+  <text x="572" y="639" font-family="Segoe UI, Arial" font-size="11" fill="#00e676">Active</text>
+
+  <text x="290" y="658" font-family="monospace" font-size="11" fill="#e8e8f0">shadow matrix</text>
+  <circle cx="560" cy="655" r="4" fill="#00e676"/>
+  <text x="572" y="659" font-family="Segoe UI, Arial" font-size="11" fill="#00e676">Active</text>
+
+  <!-- Shadow Accounts -->
+  <rect x="730" y="495" width="425" height="180" rx="12" fill="#1a1a3e" stroke="#2a2a55" stroke-width="1"/>
+  <text x="750" y="522" font-family="Segoe UI, Arial" font-size="14" font-weight="600" fill="#e8e8f0">Shadow Accounts</text>
+
+  <text x="750" y="548" font-family="Segoe UI, Arial" font-size="10" fill="#555588" letter-spacing="0.5">ACCOUNT</text>
+  <text x="900" y="548" font-family="Segoe UI, Arial" font-size="10" fill="#555588" letter-spacing="0.5">ROLE</text>
+  <text x="1040" y="548" font-family="Segoe UI, Arial" font-size="10" fill="#555588" letter-spacing="0.5">ACTIONS</text>
+  <line x1="750" y1="555" x2="1135" y2="555" stroke="#2a2a55" stroke-width="1"/>
+
+  <text x="750" y="580" font-family="monospace" font-size="11" fill="#e8e8f0">primary</text>
+  <text x="900" y="580" font-family="Segoe UI, Arial" font-size="11" fill="#8888bb">Official Agency</text>
+  <text x="1040" y="580" font-family="monospace" font-size="11" fill="#8888bb">12</text>
+
+  <line x1="750" y1="590" x2="1135" y2="590" stroke="#2a2a55" stroke-width="0.5" opacity="0.5"/>
+  <text x="750" y="612" font-family="monospace" font-size="11" fill="#e8e8f0">shadow_1</text>
+  <text x="900" y="612" font-family="Segoe UI, Arial" font-size="11" fill="#8888bb">Technical Authority</text>
+  <text x="1040" y="612" font-family="monospace" font-size="11" fill="#8888bb">8</text>
+
+  <line x1="750" y1="622" x2="1135" y2="622" stroke="#2a2a55" stroke-width="0.5" opacity="0.5"/>
+  <text x="750" y="644" font-family="monospace" font-size="11" fill="#e8e8f0">shadow_2</text>
+  <text x="900" y="644" font-family="Segoe UI, Arial" font-size="11" fill="#8888bb">Past Client</text>
+  <text x="1040" y="644" font-family="monospace" font-size="11" fill="#8888bb">5</text>
+</svg>
